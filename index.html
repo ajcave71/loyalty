@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Besparingscheck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="hero">
+        <p class="hero__eyebrow">Gratis analyse</p>
+        <h1>Doe de besparingscheck in 2 minuten</h1>
+        <p class="hero__subtitle">
+          Ontdek direct hoeveel jouw bedrijf mogelijk kan besparen op energie, telecom en verzekeringen.
+        </p>
+      </header>
+
+      <main>
+        <section class="card" id="wizard-card">
+          <div class="progress-row" aria-label="Voortgang">
+            <div class="progress-labels">
+              <span id="step-indicator">Stap 1 van 4</span>
+              <span id="step-title">Bedrijfsgegevens</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+              <div class="progress-fill" id="progress-fill"></div>
+            </div>
+          </div>
+
+          <form id="savings-form" novalidate>
+            <section class="step is-active" data-step="1">
+              <h2>Vertel iets over je bedrijf</h2>
+              <div class="field-grid two-col">
+                <label class="field">
+                  <span>Bedrijfsnaam</span>
+                  <input type="text" name="companyName" placeholder="Bijv. Acme BV" required />
+                </label>
+                <label class="field">
+                  <span>Branche</span>
+                  <select name="industry" required>
+                    <option value="">Kies een branche</option>
+                    <option value="retail">Retail</option>
+                    <option value="horeca">Horeca</option>
+                    <option value="zakelijke_dienstverlening">Zakelijke dienstverlening</option>
+                    <option value="productie">Productie</option>
+                    <option value="overig">Overig</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Aantal medewerkers</span>
+                  <input type="number" min="1" step="1" name="employees" placeholder="Bijv. 15" required />
+                </label>
+                <label class="field">
+                  <span>Vestigingen</span>
+                  <input type="number" min="1" step="1" name="locations" placeholder="Bijv. 2" required />
+                </label>
+              </div>
+            </section>
+
+            <section class="step" data-step="2">
+              <h2>Wat zijn je maandelijkse kosten?</h2>
+              <div class="field-grid three-col">
+                <label class="field">
+                  <span>Energie (€)</span>
+                  <input type="number" min="0" name="energyCost" placeholder="0" required />
+                </label>
+                <label class="field">
+                  <span>Telecom (€)</span>
+                  <input type="number" min="0" name="telecomCost" placeholder="0" required />
+                </label>
+                <label class="field">
+                  <span>Verzekeringen (€)</span>
+                  <input type="number" min="0" name="insuranceCost" placeholder="0" required />
+                </label>
+              </div>
+              <p class="helper">Tip: gebruik een gemiddelde van de afgelopen 3 maanden.</p>
+            </section>
+
+            <section class="step" data-step="3">
+              <h2>Waar wil je mee besparen?</h2>
+              <div class="checkbox-grid">
+                <label class="choice-card">
+                  <input type="checkbox" name="focusAreas" value="energie" checked />
+                  <span>Energiecontracten optimaliseren</span>
+                </label>
+                <label class="choice-card">
+                  <input type="checkbox" name="focusAreas" value="telecom" checked />
+                  <span>Telecomkosten verlagen</span>
+                </label>
+                <label class="choice-card">
+                  <input type="checkbox" name="focusAreas" value="verzekeringen" checked />
+                  <span>Verzekeringspakket herzien</span>
+                </label>
+                <label class="choice-card">
+                  <input type="checkbox" name="focusAreas" value="automatisering" />
+                  <span>Automatisering / proceswinst</span>
+                </label>
+              </div>
+            </section>
+
+            <section class="step" data-step="4">
+              <h2>Ontvang je persoonlijke rapport</h2>
+              <div class="field-grid two-col">
+                <label class="field">
+                  <span>Naam contactpersoon</span>
+                  <input type="text" name="contactName" placeholder="Voor- en achternaam" required />
+                </label>
+                <label class="field">
+                  <span>E-mailadres</span>
+                  <input type="email" name="email" placeholder="naam@bedrijf.nl" required />
+                </label>
+                <label class="field two-col-span">
+                  <span>Telefoonnummer (optioneel)</span>
+                  <input type="tel" name="phone" placeholder="Bijv. 06 12345678" />
+                </label>
+              </div>
+            </section>
+
+            <p class="form-error" id="form-error" aria-live="polite"></p>
+
+            <div class="actions">
+              <button type="button" class="btn btn-secondary" id="prev-btn" disabled>Vorige</button>
+              <button type="button" class="btn btn-primary" id="next-btn">Volgende</button>
+              <button type="submit" class="btn btn-primary is-hidden" id="submit-btn">Toon mijn besparing</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="card result is-hidden" id="result-card" aria-live="polite">
+          <h2>Jouw geschatte besparing</h2>
+          <p class="result__lead">
+            Op basis van je ingevulde gegevens kan <strong id="result-company">jouw bedrijf</strong> mogelijk besparen:
+          </p>
+          <p class="result__amount" id="result-amount">€ 0 / maand</p>
+          <div class="result__breakdown" id="result-breakdown"></div>
+          <p class="result__footnote">
+            Dit is een eerste indicatie. We sturen ook een samenvatting naar <span id="result-email"></span>.
+          </p>
+          <button class="btn btn-secondary" id="restart-btn">Nieuwe check starten</button>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
